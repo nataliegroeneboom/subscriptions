@@ -20,7 +20,7 @@ class SubscriptionsController extends Controller
     {
         
         $subscriptions = auth()->user()->subscriptions;
- 
+      
         return view('subscriptions.index', compact('subscriptions'));
     }
 
@@ -30,7 +30,8 @@ class SubscriptionsController extends Controller
      */
     public function create()
     {
-        //
+     
+        return view('subscriptions.create');
     }
 
     /**
@@ -39,12 +40,13 @@ class SubscriptionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         $attributes = request()->validate([
             'company' => 'required', 
-            'subscription_date' => 'required' ,
-             'frequency_id' => 'required'   
+            'subscription_date' => 'required',
+            'frequency' => 'required',
+            'cost' => 'required|numeric' 
             ]);
 
         auth()->user()->subscriptions()->create($attributes);
@@ -58,9 +60,12 @@ class SubscriptionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Subscription $subscription)
     {
-        //
+        if(auth()->user()->isNot($subscription->user)){
+            abort(403);
+        }
+        return view('subscriptions.show', compact('subscription'));
     }
 
     /**

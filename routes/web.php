@@ -16,8 +16,11 @@ Route::get('/', function () {
 });
 
 Route::get('/subscriptions', 'SubscriptionsController@index');
+Route::get('/subscriptions/create', 'SubscriptionsController@create');
 Route::post('/subscriptions', 'SubscriptionsController@store');
 Route::put('/subscriptions/{subscription}', 'SubscriptionsController@update');
+Route::get('/subscriptions/{subscription}', 'SubscriptionsController@show');
+
 
 Auth::routes();
 

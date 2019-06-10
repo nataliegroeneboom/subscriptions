@@ -79,7 +79,7 @@
                 </div>
             @endif
 
-            <div class="content">
+            <div class="content container">
            <h1>Subscriptions</h1>
             @yield('content')
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts/app')
+@section('content')
 
-<div class="container">
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -18,7 +18,7 @@
                     <th scope="row">{{$subscription->id}}</th>
                     <td>{{$subscription->created_at}}</td>
                     <td>{{$subscription->company}}</td>
-                    <td>{{$subscription->frequency->name}}</td>
+                    <td>{{$subscription->frequency}}</td>
                     <td>{{$subscription->subcription_date}}</td>
                     <td>{{$subscription->nextPayment()}}</td>
                 </tr>
@@ -26,4 +26,5 @@
             </tbody>
         </table>
     </div>
-</div>
+
+@endsection

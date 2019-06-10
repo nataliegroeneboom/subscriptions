@@ -19,7 +19,7 @@ class ViewSubscriptionsTest extends TestCase
         $subscription = factory('App\Subscription')->create(['user_id' => $user->id]);
         $this->get('/subscriptions')
         ->assertSee($subscription->company)
-        ->assertSee($subscription->frequency->name)
+        ->assertSee($subscription->frequency)
         ->assertSee($subscription->subscription_date)
         ->assertSee($subscription->nextPayment());
 
@@ -52,6 +52,37 @@ class ViewSubscriptionsTest extends TestCase
         ->assertSee($loggedInSubscription->company)
         ->assertDontSee($subscription->company);
       }
+
+     /**
+      * @test
+      */
+      public function it_can_display_a_single_subscription(){
+        $this->withoutExceptionHandling();  
+        $user = factory('App\User')->create();
+        $this->be($user);
+        $subscription = factory('App\Subscription')->create(['user_id' => $user->id]);
+        $this->get('/subscriptions/' . $subscription->id)
+        ->assertSee($subscription->company);
+      }
+
+      /**
+       * @test
+       */
+      public function guest_cannot_view_a_single_subscription(){
+          $this->be(factory('App\User')->create());
+          $subscription = factory('App\Subscription')->create();
+          $this->get('/subscriptions/' . $subscription->id)
+          ->assertStatus(403);
+      }
+
+      /**
+       * @test
+       */
+      public function an_authenticated_user_can_visit_create_page(){
+        $this->be(factory('App\User')->create());
+        $this->get('/subscriptions/create')->assertStatus(200);
+      }
+      
 
       
 }
